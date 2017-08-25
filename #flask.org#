@@ -111,7 +111,7 @@ def internal_server_error(e):
 客户端中。
 ** Flash 消息
 请求完成后，有时需要让用户知道状态发生了变化。这里可以使用确认消息，警告或者错误提醒。这种功能使Flask的核心特性
-。flash()函数可以实现这种效果。
+。flash()函数可以实现这种效果。 
 ** flask-sqlalchemy
 flask-sqlalchemy扩展，数据库使用url指定
 | 数据库引擎 | URL                                         |
