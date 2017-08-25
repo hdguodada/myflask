@@ -15,9 +15,9 @@ app.config['SECRET_KEY'] = 'NIDAYE'
 manager = Manager(app)
 bootstrap = Bootstrap(app)
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:passwd@loaclhost/myflask'
-# 如果设置成 True (默认情况)，Flask-SQLAlchemy 将会追踪对象的修改并且发送信号。这需要额外的内存， 如果不必要的可以禁用它。
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:passwd@localhost/myflask'
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True  # 这一项是每次请求结束后都会自动提交数据库中的变动
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # # 如果设置成 True (默认情况)，Flask-SQLAlchemy 将会追踪对象的修改并且发送信号。这需要额外的内存， 如果不必要的可以禁用它。
 db = SQLAlchemy(app)
 
 
@@ -57,7 +57,7 @@ class NameForm(FlaskForm):
 
 # 定义模型
 class Role(db.Model):
-    __tablename__ = 'roles' # 定义数据库中使用到表名
+    __tablename__ = 'roles'  # 定义数据库中使用到表名
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
 
