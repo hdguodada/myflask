@@ -114,6 +114,7 @@ def internal_server_error(e):
 。flash()函数可以实现这种效果。
 ** flask-sqlalchemy
 flask-sqlalchemy扩展，数据库使用url指定
+*** 各种数据库连接方式
 | 数据库引擎 | URL                                         |
 | Mysql      | mysql://username:password@hostname/database |
 | sqlite     | sqlite:////absolute/path/to/database        |
@@ -173,9 +174,16 @@ class a(db.Model)
 3. 创建迁移仓库
 python example1.py db init
 - 这个命令会创建migrations文件夹，所有迁移脚本存放其中。
-4. 创建迁移脚本
+4. 创建迁移脚本 
 python example1.py db migrate -m 'initial migrations'
 5. 提交
 python example1.py db upgrade
 ** 使用Flask-Mail提供电子邮件支持
 1. pip install flask-mail
+2. flask-mail smtp服务器的配置
+| MAIL_SERVER   | localhost | 电子邮件服务器的主机名或ip地址 |
+| MAIL-PORT     | 25        | 端口                           |
+| MAIL_USER_TLS | FALSE     | tls协议                        |
+| MAIL_USE_SSL  | False     | SSL协议                        |
+| MAIL_USERNAME | None      | 邮件账户的用户名               |
+| MAIL_PASSWORD | None      | 邮件账户的密码                 |

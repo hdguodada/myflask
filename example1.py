@@ -24,6 +24,11 @@ db = SQLAlchemy(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    # sender 发送方哈，recipients 邮件接收方列表
+    msg = Message("Hi!This is a test ", sender='example@example.com', recipients=['example@example.com'])
+    # msg.body 邮件正文
+    msg.body = "This is a first email"
+    mail.send(msg)
     form = NameForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.name.data).first()
@@ -87,7 +92,7 @@ class User(db.Model):
 # 集成python shell
 from flask_script import Shell
 def make_shell_context():
-    return dict(app=app, db=db, User=User, Role=Role)
+    return dict(app=app, db=db, User=User, Role=Role, Mail=Mail)
 manager.add_command("shell", Shell(make_context=make_shell_context))
 
 
@@ -97,8 +102,24 @@ migrate = Migrate(app, db)
 manager.add_command('db', MigrateCommand)
 
 
+# 使用flask-mail发送邮件
+import os
+from flask_mail import Mail, Message
 
-if __name__ == '__main__': 
-    manager.run()
+
+# 初始化
+mail = Mail(app)
+app.config['MAIL_SERVER'] = 'smtp.sina.com'
+app.config['MAIL_PORT'] = 25
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['MAIL_DEBUG'] = True
+
+
+
+if __name__ == '__main__':
+    app.run()
 
 
