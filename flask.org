@@ -151,3 +151,31 @@ class a(db.Model)
 | get_or_404()   |                          |
 | count()        | 返回查询结果的数量       |
 
+*** 集成python shell
+为shell 命令添加一个上下文
+#+BEGIN_SRC python
+  from flask_script import shell
+
+
+  def make_shell_context():
+      return dict(app=app, db=db, User=User, Role=Role)
+  manager.add_command("shell", Shell(make_context=make_shell_context))
+#+END_SRC
+
+*** 使用flask-migrate 实现数据库迁移
+1. pip install flask-migrate
+2. 初始化：
+#+BEGIN_SRC python
+  from flask_migrate import Migrate, MigrateCommand
+  migrate = Migrate(app, db)
+  manager.add_command('db', MigrateCommand)
+#+END_SRC
+3. 创建迁移仓库
+python example1.py db init
+- 这个命令会创建migrations文件夹，所有迁移脚本存放其中。
+4. 创建迁移脚本
+python example1.py db migrate -m 'initial migrations'
+5. 提交
+python example1.py db upgrade
+** 使用Flask-Mail提供电子邮件支持
+1. pip install flask-mail
